@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureGate | Identity Verification Portal</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <span>SecureGate</span>
+            </div>
+            <div class="nav-right">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon" id="themeIcon"></i>
+                </button>
+                <button class="btn login-btn" onclick="openLogin()">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="badge">
+                    <i class="fas fa-lock"></i> Simple & Secure
+                </div>
+                <h1>Secure Access Made Simple</h1>
+                <p class="hero-description">
+                    SecureGate provides easy identity verification with OTP-based authentication. 
+                    Register once, access securely with our straightforward security system.
+                </p>
+                <div class="hero-features">
+                    <div class="feature">
+                        <i class="fas fa-bolt"></i>
+                        <span>Instant OTP delivery</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>Mobile-friendly</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Easy to use</span>
+                    </div>
+                </div>
+                <button class="btn primary-btn" onclick="openRegister()">
+                    <i class="fas fa-rocket"></i> Get Started Free
+                </button>
+                <p class="hero-note">
+                    <i class="fas fa-check-circle"></i> No credit card required • Simple setup
+                </p>
+            </div>
+            <div class="hero-visual">
+                <div class="visual-card">
+                    <div class="card-header">
+                        <div class="card-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="visual-phone">
+                            <div class="phone-screen">
+                                <div class="otp-visual">
+                                    <h4><i class="fas fa-sms"></i> OTP Received</h4>
+                                    <div class="otp-code">
+                                        <span>8</span>
+                                        <span>4</span>
+                                        <span>2</span>
+                                        <span>9</span>
+                                        <span>1</span>
+                                        <span>7</span>
+                                    </div>
+                                    <p>Enter code to verify identity</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="visual-shield">
+                            <i class="fas fa-shield-check"></i>
+                            <p>Identity Verified</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section class="features">
+        <div class="container">
+            <h2>Simple & Reliable Security</h2>
+            <p class="section-subtitle">Everything you need for secure access</p>
+            
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3>Secure Verification</h3>
+                    <p>Reliable OTP-based authentication to protect your account access.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Quick Setup</h3>
+                    <p>Get started in minutes with our simple registration process.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Easy Management</h3>
+                    <p>Simple interface to manage your account and security settings.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2>How It Works</h2>
+            <p class="section-subtitle">Three simple steps to secure access</p>
+            
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Register</h3>
+                    <p>Create your account with basic information</p>
+                </div>
+                
+                <div class="step-line"></div>
+                
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Verify</h3>
+                    <p>Receive OTP on your email or mobile</p>
+                </div>
+                
+                <div class="step-line"></div>
+                
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>Access</h3>
+                    <p>Enter OTP and access your account securely</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REGISTER MODAL -->
+    <div class="modal" id="registerModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+                <span class="close" onclick="closeRegister()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">Join SecureGate in less than 2 minutes</p>
+                
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" placeholder="Full Name" class="modern-input" id="regName">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-calendar-alt"></i>
+                    <input type="date" class="modern-input" id="regDate">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-city"></i>
+                    <input type="text" placeholder="City" class="modern-input" id="regCity">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Email address" class="modern-input" id="regEmail">
+                </div>
+                
+                <div class="input-group">
+                    <i class="fas fa-mobile-alt"></i>
+                    <input type="tel" placeholder="Mobile Number" class="modern-input" id="regMobile">
+                </div>
+                
+                <div class="terms">
+                    <input type="checkbox" id="terms">
+                    <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                </div>
+                
+                <button class="btn primary-btn full-width" onclick="submitRegistration()">
+                    <i class="fas fa-rocket"></i> Create Secure Account
+                </button>
+                
+                <p class="modal-footer">
+                    Already have an account? <a href="#" onclick="switchToLogin()">Sign in here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN MODAL -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class="fas fa-sign-in-alt"></i> Secure Login</h2>
+                <span class="close" onclick="closeLogin()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p class="modal-description">Choose how you want to receive your OTP</p>
+                
+                <!-- OTP Method Selection -->
+                <div class="otp-method-selector">
+                    <div class="method-option active" data-method="email" onclick="selectOTPMethod('email')">
+                        <i class="fas fa-envelope"></i>
+                        <span>Email OTP</span>
+                    </div>
+                    <div class="method-option" data-method="mobile" onclick="selectOTPMethod('mobile')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>Mobile OTP</span>
+                    </div>
+                </div>
+                
+                <!-- Email OTP Form (Default) -->
+                <div class="otp-form" id="emailOtpForm">
+                    <div class="input-group">
+                        <i class="fas fa-envelope"></i>
+                        <input type="email" placeholder="Enter your email" class="modern-input" id="loginEmail">
+                    </div>
+                    <button class="btn primary-btn full-width" onclick="sendEmailOTP()">
+                        <i class="fas fa-paper-plane"></i> Send OTP to Email
+                    </button>
+                </div>
+                
+                <!-- Mobile OTP Form (Hidden by default) -->
+                <div class="otp-form" id="mobileOtpForm" style="display: none;">
+                    <div class="input-group">
+                        <i class="fas fa-mobile-alt"></i>
+                        <input type="tel" placeholder="Enter your mobile number" class="modern-input" id="loginMobile">
+                    </div>
+                    <button class="btn primary-btn full-width" onclick="sendMobileOTP()">
+                        <i class="fas fa-sms"></i> Send OTP to Mobile
+                    </button>
+                </div>
+                
+                <!-- OTP Verification (Hidden initially) -->
+                <div class="otp-verification" id="otpVerification" style="display: none;">
+                    <div class="input-group">
+                        <i class="fas fa-shield-alt"></i>
+                        <input type="text" placeholder="Enter 6-digit OTP" class="modern-input" id="otpCode" maxlength="6">
+                    </div>
+                    <button class="btn primary-btn full-width" onclick="verifyOTP()">
+                        <i class="fas fa-check-circle"></i> Verify OTP
+                    </button>
+                    <p class="resend-otp">
+                        Didn't receive code? <a href="#" onclick="resendOTP()">Resend OTP</a>
+                        <span id="timer">(Resend in 30s)</span>
+                    </p>
+                </div>
+                
+                <p class="modal-footer">
+                    Don't have an account? <a href="#" onclick="switchToRegister()">Register here</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <i class="fas fa-shield-alt"></i> SecureGate
+                </div>
+                <p class="footer-tagline">Simple identity verification for secure access</p>
+                <div class="footer-links">
+                    <a href="#"><i class="fas fa-lock"></i> Security</a>
+                    <a href="#"><i class="fas fa-file-alt"></i> Privacy Policy</a>
+                    <a href="#"><i class="fas fa-headset"></i> Support</a>
+                </div>
+                <p class="copyright">© 2023 SecureGate. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+</body>
+</html>
