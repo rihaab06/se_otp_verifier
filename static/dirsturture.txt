@@ -1,0 +1,10 @@
+web_portal/
+├─ static/
+│   ├─ script.js
+│   └─ style.css
+├─ template/
+│   └─ index.html
+├─ database.py
+├─ main.py
+├─ models.py
+├─ requirements.txt

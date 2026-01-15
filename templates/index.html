@@ -163,122 +163,140 @@
         </div>
     </section>
 
-    <!-- REGISTER MODAL -->
-    <div class="modal" id="registerModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-user-plus"></i> Create Account</h2>
-                <span class="close" onclick="closeRegister()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p class="modal-description">Join SecureGate in less than 2 minutes</p>
-                
+   <!-- REGISTER MODAL -->
+
+<div class="modal" id="registerModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+            <span class="close" onclick="closeRegister()">&times;</span>
+        </div>
+
+        <div class="modal-body">
+            <p class="modal-description">Join SecureGate in less than 2 minutes</p>
+
+            <!-- FORM START -->
+            <form id="regForm" method="post" action="/register">
+
                 <div class="input-group">
                     <i class="fas fa-user"></i>
-                    <input type="text" placeholder="Full Name" class="modern-input" id="regName">
+                    <input type="text" class="modern-input"
+                           placeholder="Full Name"
+                           id="regName" name="name" required>
                 </div>
-                
+
                 <div class="input-group">
                     <i class="fas fa-calendar-alt"></i>
-                    <input type="date" class="modern-input" id="regDate">
+                    <input type="date" class="modern-input"
+                           id="regDate" name="dob" required>
                 </div>
-                
+
                 <div class="input-group">
                     <i class="fas fa-city"></i>
-                    <input type="text" placeholder="City" class="modern-input" id="regCity">
+                    <input type="text" class="modern-input"
+                           placeholder="City"
+                           id="regCity" name="city" required>
                 </div>
-                
+
                 <div class="input-group">
                     <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="Email address" class="modern-input" id="regEmail">
+                    <input type="email" class="modern-input"
+                           placeholder="Email address"
+                           id="regEmail" name="email" required>
                 </div>
-                
+
                 <div class="input-group">
                     <i class="fas fa-mobile-alt"></i>
-                    <input type="tel" placeholder="Mobile Number" class="modern-input" id="regMobile">
+                    <input type="tel" class="modern-input"
+                           placeholder="Mobile Number"
+                           id="regMobile" name="mobile" required>
                 </div>
-                
-                <div class="terms">
-                    <input type="checkbox" id="terms">
-                    <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
-                </div>
-                
-                <button class="btn primary-btn full-width" onclick="submitRegistration()">
+
+
+
+                <button type="submit" class="btn primary-btn full-width">
                     <i class="fas fa-rocket"></i> Create Secure Account
                 </button>
-                
-                <p class="modal-footer">
-                    Already have an account? <a href="#" onclick="switchToLogin()">Sign in here</a>
-                </p>
-            </div>
-        </div>
-    </div>
 
-    <!-- LOGIN MODAL -->
-    <div class="modal" id="loginModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2><i class="fas fa-sign-in-alt"></i> Secure Login</h2>
-                <span class="close" onclick="closeLogin()">&times;</span>
-            </div>
-            <div class="modal-body">
-                <p class="modal-description">Choose how you want to receive your OTP</p>
-                
-                <!-- OTP Method Selection -->
-                <div class="otp-method-selector">
-                    <div class="method-option active" data-method="email" onclick="selectOTPMethod('email')">
-                        <i class="fas fa-envelope"></i>
-                        <span>Email OTP</span>
-                    </div>
-                    <div class="method-option" data-method="mobile" onclick="selectOTPMethod('mobile')">
-                        <i class="fas fa-mobile-alt"></i>
-                        <span>Mobile OTP</span>
-                    </div>
-                </div>
-                
-                <!-- Email OTP Form (Default) -->
-                <div class="otp-form" id="emailOtpForm">
-                    <div class="input-group">
-                        <i class="fas fa-envelope"></i>
-                        <input type="email" placeholder="Enter your email" class="modern-input" id="loginEmail">
-                    </div>
-                    <button class="btn primary-btn full-width" onclick="sendEmailOTP()">
-                        <i class="fas fa-paper-plane"></i> Send OTP to Email
-                    </button>
-                </div>
-                
-                <!-- Mobile OTP Form (Hidden by default) -->
-                <div class="otp-form" id="mobileOtpForm" style="display: none;">
-                    <div class="input-group">
-                        <i class="fas fa-mobile-alt"></i>
-                        <input type="tel" placeholder="Enter your mobile number" class="modern-input" id="loginMobile">
-                    </div>
-                    <button class="btn primary-btn full-width" onclick="sendMobileOTP()">
-                        <i class="fas fa-sms"></i> Send OTP to Mobile
-                    </button>
-                </div>
-                
-                <!-- OTP Verification (Hidden initially) -->
-                <div class="otp-verification" id="otpVerification" style="display: none;">
-                    <div class="input-group">
-                        <i class="fas fa-shield-alt"></i>
-                        <input type="text" placeholder="Enter 6-digit OTP" class="modern-input" id="otpCode" maxlength="6">
-                    </div>
-                    <button class="btn primary-btn full-width" onclick="verifyOTP()">
-                        <i class="fas fa-check-circle"></i> Verify OTP
-                    </button>
-                    <p class="resend-otp">
-                        Didn't receive code? <a href="#" onclick="resendOTP()">Resend OTP</a>
-                        <span id="timer">(Resend in 30s)</span>
-                    </p>
-                </div>
-                
                 <p class="modal-footer">
-                    Don't have an account? <a href="#" onclick="switchToRegister()">Register here</a>
+                    Already have an account?
+                    <a href="#" onclick="switchToLogin()">Sign in here</a>
                 </p>
-            </div>
+
+            </form>
+            <!-- FORM END -->
+
         </div>
     </div>
+</div>
+
+
+   <!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2><i class="fas fa-sign-in-alt"></i> Secure Login</h2>
+            <span class="close" onclick="closeLogin()">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p class="modal-description">Choose how you want to receive your OTP</p>
+            
+            <!-- OTP Method Selection -->
+            <div class="otp-method-selector">
+                <div class="method-option active" data-method="email" onclick="selectOTPMethod('email')">
+                    <i class="fas fa-envelope"></i>
+                    <span>Email OTP</span>
+                </div>
+                <div class="method-option" data-method="mobile" onclick="selectOTPMethod('mobile')">
+                    <i class="fas fa-mobile-alt"></i>
+                    <span>Mobile OTP</span>
+                </div>
+            </div>
+            
+            <!-- Email OTP Form (Default) -->
+            <form class="otp-form" id="emailOtpForm">
+                <div class="input-group">
+                    <i class="fas fa-envelope"></i>
+                    <input type="email" placeholder="Enter your email" class="modern-input" id="loginEmail" required>
+                </div>
+                <button type="submit" class="btn primary-btn full-width">
+                    <i class="fas fa-paper-plane"></i> Send OTP to Email
+                </button>
+            </form>
+            
+            <!-- Mobile OTP Form (Hidden by default) -->
+            <form class="otp-form" id="mobileOtpForm" style="display: none;">
+                <div class="input-group">
+                    <i class="fas fa-mobile-alt"></i>
+                    <input type="tel" placeholder="Enter your mobile number" class="modern-input" id="loginMobile" required>
+                </div>
+                <button type="submit" class="btn primary-btn full-width">
+                    <i class="fas fa-sms"></i> Send OTP to Mobile
+                </button>
+            </form>
+            
+            <!-- OTP Verification (Hidden initially) -->
+            <form class="otp-verification" id="otpVerification" style="display: none;">
+                <div class="input-group">
+                    <i class="fas fa-shield-alt"></i>
+                    <input type="text" placeholder="Enter 6-digit OTP" class="modern-input" id="otpCode" maxlength="6" required>
+                </div>
+                <button type="submit" class="btn primary-btn full-width">
+                    <i class="fas fa-check-circle"></i> Verify OTP
+                </button>
+                <p class="resend-otp">
+                    Didn't receive code? <a href="#" onclick="resendOTP()">Resend OTP</a>
+                    <span id="timer">(Resend in 30s)</span>
+                </p>
+            </form>
+            
+            <p class="modal-footer">
+                Don't have an account? <a href="#" onclick="switchToRegister()">Register here</a>
+            </p>
+        </div>
+    </div>
+</div>
+
 
     <!-- FOOTER -->
     <footer class="footer">

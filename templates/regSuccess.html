@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Successful - SecureGate</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            transition: background 0.3s ease;
+        }
+
+        body.dark-mode {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        }
+
+        .success-container {
+            background: white;
+            border-radius: 24px;
+            padding: 50px 40px;
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.6s ease;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode .success-container {
+            background: #1e293b;
+            color: #e2e8f0;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* Success Icon */
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            animation: pulse 2s ease infinite;
+        }
+
+        body.dark-mode .success-icon {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(16, 185, 129, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .success-icon i {
+            font-size: 48px;
+            color: white;
+        }
+
+        /* Header */
+        h1 {
+            color: #1e293b;
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+            font-weight: 800;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode h1 {
+            color: #e2e8f0;
+        }
+
+        .user-name {
+            color: #8b5cf6;
+            font-weight: 700;
+        }
+
+        body.dark-mode .user-name {
+            color: #a78bfa;
+        }
+
+        /* Message */
+        .success-message {
+            color: #64748b;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 40px;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .success-message {
+            color: #cbd5e1;
+        }
+
+        /* Details Box */
+        .details-box {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 40px;
+            text-align: left;
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        body.dark-mode .details-box {
+            background: #0f172a;
+            border-color: #334155;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            transition: border-color 0.3s;
+        }
+
+        body.dark-mode .detail-item {
+            border-color: #334155;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: white;
+        }
+
+        body.dark-mode .detail-icon {
+            background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+        }
+
+        .detail-text {
+            flex: 1;
+        }
+
+        .detail-label {
+            font-size: 0.9rem;
+            color: #64748b;
+            margin-bottom: 4px;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .detail-label {
+            color: #94a3b8;
+        }
+
+        .detail-value {
+            font-size: 1rem;
+            color: #1e293b;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .detail-value {
+            color: #e2e8f0;
+        }
+
+        /* Secure Badge */
+        .secure-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        body.dark-mode .secure-badge {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        /* Action Buttons */
+        .actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            box-shadow: 0 4px 14px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #64748b;
+            border: 2px solid #e2e8f0;
+        }
+
+        .btn-secondary:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            transform: translateY(-2px);
+        }
+
+        body.dark-mode .btn-secondary {
+            background: #1e293b;
+            color: #cbd5e1;
+            border-color: #475569;
+        }
+
+        body.dark-mode .btn-secondary:hover {
+            background: #334155;
+        }
+
+        /* Next Steps */
+        .next-steps {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 1px solid #e2e8f0;
+            transition: border-color 0.3s;
+        }
+
+        body.dark-mode .next-steps {
+            border-color: #334155;
+        }
+
+        .next-steps h3 {
+            color: #1e293b;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .next-steps h3 {
+            color: #e2e8f0;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            color: #64748b;
+            transition: color 0.3s;
+        }
+
+        body.dark-mode .step {
+            color: #cbd5e1;
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            background: #3b82f6;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-right: 12px;
+        }
+
+        body.dark-mode .step-number {
+            background: #1d4ed8;
+        }
+
+        /* Dark Mode Toggle (Icon) */
+        .theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: transparent;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #334155;
+            font-size: 1.2rem;
+        }
+
+        .theme-toggle:hover {
+            background: #f1f5f9;
+            transform: rotate(15deg);
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        body.dark-mode .theme-toggle {
+            border-color: #475569;
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .theme-toggle:hover {
+            background: #334155;
+            border-color: #60a5fa;
+            color: #60a5fa;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .success-container {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+            
+            .theme-toggle {
+                top: 15px;
+                right: 15px;
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <!-- Dark Mode Toggle Icon -->
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+
+        <!-- Success Icon -->
+        <div class="success-icon">
+            <i class="fas fa-check"></i>
+        </div>
+        
+        <!-- Header -->
+        <h1>Registration Successful!</h1>
+        
+        <!-- Message -->
+        <p class="success-message">
+            Welcome to <strong>SecureGate</strong>! Your account has been created successfully.
+            <span id="userName">Welcome aboard!</span>
+        </p>
+        
+        <!-- Details Box -->
+        <div class="details-box">
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="fas fa-user-check"></i>
+                </div>
+                <div class="detail-text">
+                    <div class="detail-label">Account Status</div>
+                    <div class="detail-value">Active & Verified</div>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="detail-text">
+                    <div class="detail-label">Security Level</div>
+                    <div class="detail-value">Maximum Protection</div>
+                </div>
+            </div>
+            
+            <div class="detail-item">
+                <div class="detail-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="detail-text">
+                    <div class="detail-label">OTP Authentication</div>
+                    <div class="detail-value">Ready to Use</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Secure Badge -->
+        <div class="secure-badge">
+            <i class="fas fa-lock"></i>
+            Your data is encrypted and secure
+        </div>
+        
+        <!-- Action Buttons -->
+        <div class="actions">
+            <button class="btn btn-primary" id="loginBtn" onclick="goToLogin()">
+                <i class="fas fa-sign-in-alt"></i>
+                Continue to Login
+            </button>
+            <button class="btn btn-secondary" onclick="goToHome()">
+                <i class="fas fa-home"></i>
+                Back to Home
+            </button>
+        </div>
+        
+        <!-- Next Steps -->
+        <div class="next-steps">
+            <h3>What's Next?</h3>
+            <div class="step">
+                <div class="step-number">1</div>
+                Click "Continue to Login" above
+            </div>
+            <div class="step">
+                <div class="step-number">2</div>
+                Choose OTP method (Email/Mobile)
+            </div>
+            <div class="step">
+                <div class="step-number">3</div>
+                Enter OTP to access your account
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get user name from URL parameters
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Display user name if available
+        const userName = getQueryParam('name');
+        if (userName) {
+            const firstName = userName.split(' ')[0];
+            document.getElementById('userName').innerHTML = `Welcome, <span class="user-name">${firstName}</span>!`;
+        }
+
+        // Navigation functions
+        function goToLogin() {
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                const originalHTML = loginBtn.innerHTML;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Redirecting...';
+                loginBtn.disabled = true;
+                
+                window.location.href = "/#login";
+                
+                setTimeout(() => {
+                    loginBtn.innerHTML = originalHTML;
+                    loginBtn.disabled = false;
+                }, 2000);
+            } else {
+                window.location.href = "/#login";
+            }
+        }
+
+        function goToHome() {
+            window.location.href = "/";
+        }
+
+        // Dark Mode Toggle Functionality
+        function initTheme() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const body = document.body;
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('successPageTheme') || 'light';
+            
+            // Apply saved theme
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                
+                if (body.classList.contains('dark-mode')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('successPageTheme', 'dark');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('successPageTheme', 'light');
+                }
+            });
+        }
+
+        // Initialize theme when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initTheme();
+            
+            // Focus on the primary button for accessibility
+            const primaryBtn = document.getElementById('loginBtn');
+            if (primaryBtn) {
+                primaryBtn.focus();
+            }
+            
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    goToLogin();
+                }
+                if (e.key === 'Escape') {
+                    goToHome();
+                }
+                if (e.key === 'd' || e.key === 'D') {
+                    if (e.ctrlKey) {
+                        document.getElementById('themeToggle').click();
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
