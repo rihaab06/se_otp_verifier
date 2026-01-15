@@ -5,8 +5,8 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String)
-    dob = Column(String)
-    city = Column(String)
-    email = Column(String, unique=True)
-    mobile = Column(String)
+    name = Column(String, nullable=False)
+    dob = Column(String, nullable=False)
+    city = Column(String, nullable=False)
+    email = Column(String, nullable=False)
+    mobile = Column(String, nullable=False)
