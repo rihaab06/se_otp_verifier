@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification - SecureGate</title>
+    <link rel="stylesheet" href="/static/otp-style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Dark Mode Toggle -->
+    <div class="theme-toggle-container">
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Success Icon -->
+        <div class="success-icon">
+            <i class="fas fa-shield-check"></i>
+        </div>
+
+        <!-- Header -->
+        <h1>Verify Your Identity</h1>
+        <p class="subtitle">Enter the 6-digit OTP to complete verification</p>
+
+        <!-- OTP Sent Message -->
+        <div class="otp-sent-message" id="otpSentMessage">
+            <i class="fas fa-check-circle"></i>
+            <div class="otp-sent-details">
+                <span class="otp-sent-label">OTP sent to:</span>
+                <span class="otp-sent-value" id="maskedContactInfo"></span>
+                <div class="otp-type-badge" id="otpTypeBadge">
+                    <i class="fas fa-envelope"></i>
+                    <span>********1214</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- OTP Input Form -->
+        <div class="otp-form-container">
+            <form id="otpForm">
+                <div class="otp-inputs">
+                    <input type="text" maxlength="1" class="otp-digit" data-index="1" inputmode="numeric"  autofocus>
+                    <input type="text" maxlength="1" class="otp-digit" data-index="2" inputmode="numeric"  >
+                    <input type="text" maxlength="1" class="otp-digit" data-index="3" inputmode="numeric"  >
+                    <input type="text" maxlength="1" class="otp-digit" data-index="4" inputmode="numeric" >
+                    <input type="text" maxlength="1" class="otp-digit" data-index="5" inputmode="numeric" >
+                    <input type="text" maxlength="1" class="otp-digit" data-index="6" inputmode="numeric" >
+                </div>
+                
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary full-width" id="verifyBtn" disabled>
+                        <i class="fas fa-shield-check"></i>
+                        Verify OTP
+                    </button>
+                </div>
+
+                <div class="form-group">
+                    <button type="button" class="btn btn-secondary full-width" id="resendBtn" disabled>
+                        <i class="fas fa-redo"></i>
+                        Resend OTP
+                        <span class="timer" id="resendTimer">(30s)</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+
+
+
+        <!-- Status Messages -->
+        <div class="status-messages">
+            <div class="status-item">
+                <i class="fas fa-clock"></i>
+                <span>OTP expires in <strong id="expiryTime">05:00</strong></span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-info-circle"></i>
+                <span>Enter the exact 6-digit code received</span>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <button class="btn btn-outline" id="backBtn">
+                <i class="fas fa-arrow-left"></i>
+                Back to Login
+            </button>
+            <button class="btn btn-secondary" id="supportBtn">
+                <i class="fas fa-headset"></i>
+                Need Help?
+            </button>
+        </div>
+
+        <!-- Security Info -->
+        <div class="security-info">
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Secure Verification</span>
+            </div>
+            <p class="security-note">
+                <i class="fas fa-lock"></i>
+                Your OTP is encrypted and will expire automatically
+            </p>
+        </div>
+    </div>
+
+    
+
+    <script src="/static/otp-script.js"></script>
+</body>
+</html>

@@ -59,4 +59,24 @@ function initTheme() {
         localStorage.setItem('theme', isDark ? 'dark' : 'light');
     });
 }
+function selectOTPMethod(method) {
+    const emailForm = document.getElementById("emailOtpForm");
+    const mobileForm = document.getElementById("mobileOtpForm");
+
+    document.querySelectorAll(".method-option").forEach(el =>
+        el.classList.remove("active")
+    );
+
+    document
+        .querySelector(`.method-option[data-method="${method}"]`)
+        .classList.add("active");
+
+    if (method === "email") {
+        emailForm.style.display = "block";
+        mobileForm.style.display = "none";
+    } else {
+        emailForm.style.display = "none";
+        mobileForm.style.display = "block";
+    }
+}
 

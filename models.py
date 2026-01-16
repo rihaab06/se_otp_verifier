@@ -8,5 +8,6 @@ class User(Base):
     name = Column(String, nullable=False)
     dob = Column(String, nullable=False)
     city = Column(String, nullable=False)
-    email = Column(String, nullable=False)
+    email = Column(String, nullable=False, unique=True, index=True)
     mobile = Column(String, nullable=False)
+    otp = Column(String, nullable=True)

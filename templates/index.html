@@ -254,15 +254,21 @@
             </div>
             
             <!-- Email OTP Form (Default) -->
-            <form class="otp-form" id="emailOtpForm">
-                <div class="input-group">
-                    <i class="fas fa-envelope"></i>
-                    <input type="email" placeholder="Enter your email" class="modern-input" id="loginEmail" required>
-                </div>
-                <button type="submit" class="btn primary-btn full-width">
-                    <i class="fas fa-paper-plane"></i> Send OTP to Email
-                </button>
-            </form>
+  <form class="otp-form" id="emailOtpForm" method="post" action="/login/email">
+    <div class="input-group">
+        <i class="fas fa-envelope"></i>
+        <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            class="modern-input"
+            required
+        >
+    </div>
+    <button type="submit" class="btn primary-btn full-width">
+        <i class="fas fa-paper-plane"></i> Send OTP to Email
+    </button>
+</form>
             
             <!-- Mobile OTP Form (Hidden by default) -->
             <form class="otp-form" id="mobileOtpForm" style="display: none;">
