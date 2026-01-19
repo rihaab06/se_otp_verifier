@@ -1,15 +1,12 @@
-from fastapi import FastAPI, Form, Request
+from fastapi import FastAPI, Form, Request, HTTPException
 from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-
-from database import SessionLocal, engine
-from models import User
-from database import Base
-
-import random
 from sqlalchemy.orm import Session
-from fastapi import HTTPException
+import random
+
+from database import SessionLocal, engine, Base
+from models import User
 
 app = FastAPI()
 
@@ -31,17 +28,10 @@ def register_user(
     mobile: str = Form(...)
 ):
     db = SessionLocal()
-    user = User(
-        name=name,
-        dob=dob,
-        city=city,
-        email=email,
-        mobile=mobile
-    )
+    user = User(name=name, dob=dob, city=city, email=email, mobile=mobile)
     db.add(user)
     db.commit()
     db.close()
-
     return RedirectResponse("/success", status_code=303)
 
 @app.get("/success", response_class=HTMLResponse)
@@ -50,10 +40,10 @@ def success(request: Request):
 
 def generate_otp():
     return str(random.randint(100000, 999999))
+
 @app.post("/login/email")
 def login_with_email(email: str = Form(...)):
     db: Session = SessionLocal()
-
     user = db.query(User).filter(User.email == email).first()
 
     if not user:
@@ -65,13 +55,9 @@ def login_with_email(email: str = Form(...)):
     db.commit()
     db.close()
 
-    # TEMP: print OTP (later replace with real email sending)
-    print("OTP for", email, ":", otp)
+    print("OTP for", email, ":", otp)  # TEMP
 
-    return RedirectResponse(
-        url=f"/verify-otp?email={email}",
-        status_code=303
-    )
+    return RedirectResponse(f"/verify-otp?email={email}", status_code=303)
 
 @app.get("/verify-otp", response_class=HTMLResponse)
 def verify_otp_page(request: Request, email: str):
@@ -95,7 +81,6 @@ def verify_otp(email: str = Form(...), otp: str = Form(...)):
 
     return RedirectResponse("/dashboard", status_code=303)
 
-
 @app.get("/dashboard", response_class=HTMLResponse)
-def dashboard(request: Request):
+def dashboard():
     return HTMLResponse("<h1>Login Successful 🎉</h1>")

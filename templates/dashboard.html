@@ -3,9 +3,523 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>User Dashboard - SecureGate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Your original base styles preserved */
+        body {
+            font-family: Inter, sans-serif;
+            background: #f4f6f8;
+            padding: 40px;
+            margin: 0;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
+
+        /* Your original card styles preserved */
+        .card {
+            max-width: 500px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        /* Your original info styles preserved */
+        .info {
+            margin-top: 20px;
+        }
+        
+        .info p {
+            margin: 10px 0;
+            font-size: 16px;
+        }
+
+        /* Your original logout styles preserved */
+        .logout {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .logout a {
+            text-decoration: none;
+            color: white;
+            background: #ef4444;
+            padding: 10px 20px;
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        /* ===== ENHANCED STYLES ===== */
+        
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #e2e8f0;
+        }
+
+        body.dark-mode .card {
+            background: #1e293b;
+            color: #e2e8f0;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        body.dark-mode .info p {
+            color: #cbd5e1;
+        }
+
+        body.dark-mode .logout a {
+            background: #dc2626;
+        }
+
+        /* Enhanced Card Styles */
+        .card {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid transparent;
+            animation: slideUp 0.6s ease;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6, #10b981);
+            background-size: 300% 300%;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        /* Header Enhancement */
+        h2 {
+            text-align: center;
+            color: #1e293b;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+
+        body.dark-mode h2 {
+            color: #e2e8f0;
+            border-color: #334155;
+        }
+
+        /* Info Enhancement */
+        .info p {
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info p:hover {
+            background: #f8fafc;
+            transform: translateX(5px);
+        }
+
+        body.dark-mode .info p:hover {
+            background: #0f172a;
+        }
+
+        .info p strong {
+            min-width: 120px;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        body.dark-mode .info p strong {
+            color: #94a3b8;
+        }
+
+        /* Logout Button Enhancement */
+        .logout a {
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .logout a:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Theme Toggle */
+        .theme-toggle-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .theme-toggle {
+            background: white;
+            border: 2px solid #e2e8f0;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #334155;
+            font-size: 1.3rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .theme-toggle:hover {
+            transform: rotate(15deg);
+            border-color: #3b82f6;
+            color: #3b82f6;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: #1e293b;
+            border-color: #475569;
+            color: #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        body.dark-mode .theme-toggle:hover {
+            border-color: #60a5fa;
+            color: #60a5fa;
+        }
+
+        /* Welcome Icon */
+        .welcome-icon {
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 3rem;
+            color: #8b5cf6;
+            animation: bounce 2s ease infinite;
+        }
+
+        /* Security Badge */
+        .security-badge {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        body.dark-mode .security-badge {
+            border-color: #334155;
+        }
+
+        .security-badge span {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(16, 185, 129, 0.1);
+            color: #059669;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        body.dark-mode .security-badge span {
+            background: rgba(5, 150, 105, 0.2);
+            color: #10b981;
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            body {
+                padding: 20px;
+            }
+            
+            .card {
+                padding: 20px;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
+            }
+            
+            .info p {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 5px;
+            }
+            
+            .info p strong {
+                min-width: auto;
+            }
+            
+            .theme-toggle {
+                width: 45px;
+                height: 45px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h2> WELCOME RIHAAB</h2>
+    <!-- Theme Toggle -->
+    <div class="theme-toggle-container">
+        <button class="theme-toggle" id="themeToggle">
+            <i class="fas fa-moon" id="themeIcon"></i>
+        </button>
+    </div>
+
+    <!-- Main Card - YOUR ORIGINAL CODE INTACT -->
+    <div class="card">
+        <!-- Welcome Icon -->
+        <div class="welcome-icon">
+            <i class="fas fa-user-shield"></i>
+        </div>
+        
+        <h2>Welcome {{ user.name }} 👋</h2>
+
+        <div class="info">
+            <p><strong>Email:</strong> {{ user.email }}</p>
+            <p><strong>Mobile:</strong> {{ user.mobile }}</p>
+            <p><strong>City:</strong> {{ user.city }}</p>
+            <p><strong>Date of Birth:</strong> {{ user.dob }}</p>
+        </div>
+
+        <!-- Security Badge -->
+        <div class="security-badge">
+            <span><i class="fas fa-lock"></i> Secure Dashboard</span>
+        </div>
+
+        <div class="logout">
+            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+    </div>
+
+    <script>
+        // ===== DARK MODE FUNCTIONALITY =====
+        function initTheme() {
+            const themeToggle = document.getElementById('themeToggle');
+            const themeIcon = document.getElementById('themeIcon');
+            const body = document.body;
+            
+            // Check for saved theme preference
+            const savedTheme = localStorage.getItem('dashboardTheme') || 'light';
+            
+            // Apply saved theme
+            if (savedTheme === 'dark') {
+                body.classList.add('dark-mode');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            } else {
+                body.classList.remove('dark-mode');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            }
+            
+            // Toggle theme on button click
+            themeToggle.addEventListener('click', () => {
+                body.classList.toggle('dark-mode');
+                
+                if (body.classList.contains('dark-mode')) {
+                    themeIcon.classList.remove('fa-moon');
+                    themeIcon.classList.add('fa-sun');
+                    localStorage.setItem('dashboardTheme', 'dark');
+                    showNotification('Dark mode enabled');
+                } else {
+                    themeIcon.classList.remove('fa-sun');
+                    themeIcon.classList.add('fa-moon');
+                    localStorage.setItem('dashboardTheme', 'light');
+                    showNotification('Light mode enabled');
+                }
+            });
+        }
+
+        // ===== ENHANCE INFO ITEMS WITH ICONS =====
+        function enhanceInfoItems() {
+            const infoItems = document.querySelectorAll('.info p');
+            const icons = {
+                'Email:': 'fas fa-envelope',
+                'Mobile:': 'fas fa-mobile-alt',
+                'City:': 'fas fa-city',
+                'Date of Birth:': 'fas fa-birthday-cake'
+            };
+            
+            infoItems.forEach(item => {
+                const label = item.querySelector('strong').textContent;
+                if (icons[label]) {
+                    const icon = document.createElement('i');
+                    icon.className = icons[label];
+                    icon.style.color = '#8b5cf6';
+                    icon.style.marginRight = '10px';
+                    item.insertBefore(icon, item.firstChild);
+                }
+            });
+        }
+
+        // ===== FORMAT DATE OF BIRTH =====
+        function formatDateOfBirth() {
+            const dobElement = document.querySelector('.info p:last-child');
+            if (dobElement) {
+                const dobText = dobElement.textContent.replace('Date of Birth:', '').trim();
+                try {
+                    const dobDate = new Date(dobText);
+                    if (!isNaN(dobDate.getTime())) {
+                        const formattedDate = dobDate.toLocaleDateString('en-US', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        const age = calculateAge(dobDate);
+                        
+                        // Update the text
+                        const strongTag = dobElement.querySelector('strong');
+                        dobElement.innerHTML = `<strong>Date of Birth:</strong> ${formattedDate} (Age: ${age})`;
+                        
+                        // Re-add the icon
+                        const icon = document.createElement('i');
+                        icon.className = 'fas fa-birthday-cake';
+                        icon.style.color = '#8b5cf6';
+                        icon.style.marginRight = '10px';
+                        dobElement.insertBefore(icon, dobElement.firstChild);
+                    }
+                } catch (e) {
+                    console.log('Date formatting error:', e);
+                }
+            }
+        }
+
+        function calculateAge(birthDate) {
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const monthDiff = today.getMonth() - birthDate.getMonth();
+            
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            
+            return age;
+        }
+
+        // ===== NOTIFICATION SYSTEM =====
+        function showNotification(message) {
+            // Remove existing notification
+            const existingNotification = document.querySelector('.notification');
+            if (existingNotification) {
+                existingNotification.remove();
+            }
+            
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            
+            // Add styles
+            notification.style.cssText = `
+                position: fixed;
+                top: 80px;
+                right: 20px;
+                background: #10b981;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                z-index: 1000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'slideOut 0.3s ease';
+                    setTimeout(() => notification.remove(), 300);
+                }
+            }, 3000);
+        }
+
+        // ===== KEYBOARD SHORTCUTS =====
+        function initKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                // Ctrl+D for Dark Mode Toggle
+                if (e.ctrlKey && e.key === 'd') {
+                    e.preventDefault();
+                    document.getElementById('themeToggle').click();
+                }
+                
+                // Escape key for homepage
+                if (e.key === 'Escape') {
+                    window.location.href = '/';
+                }
+                
+                // L key for logout (with confirmation)
+                if (e.key === 'l' && e.ctrlKey) {
+                    e.preventDefault();
+                    if (confirm('Are you sure you want to logout?')) {
+                        window.location.href = '/logout';
+                    }
+                }
+            });
+        }
+
+        // ===== INITIALIZATION =====
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all features
+            initTheme();
+            enhanceInfoItems();
+            formatDateOfBirth();
+            initKeyboardShortcuts();
+            
+            // Show welcome message
+            setTimeout(() => {
+                const userName = "{{ user.name }}".replace('User', 'Guest');
+                showNotification(`Welcome to your dashboard, ${userName}!`);
+            }, 1000);
+            
+            // Focus on card for accessibility
+            document.querySelector('.card').setAttribute('tabindex', '-1');
+            document.querySelector('.card').focus();
+        });
+    </script>
 </body>
 </html>
