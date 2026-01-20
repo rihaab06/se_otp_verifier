@@ -9,6 +9,8 @@ import random
 from database import SessionLocal, engine, Base
 from models import User
 
+from utils.email import send_otp_email
+
 # ---------------- APP SETUP ----------------
 
 app = FastAPI()
@@ -86,7 +88,8 @@ def login_with_email(email: str = Form(...)):
     db.close()
 
     # TEMP: print OTP (replace with email service later)
-    print("OTP for", email, ":", otp)
+    send_otp_email(email, otp)
+
 
     return RedirectResponse(f"/verify-otp?email={email}", status_code=303)
 
@@ -155,3 +158,30 @@ def dashboard(request: Request):
 def logout(request: Request):
     request.session.clear()
     return RedirectResponse("/", status_code=303)
+
+@app.post("/login/email")
+def login_with_email(email: str = Form(...)):
+    db: Session = SessionLocal()
+    user = db.query(User).filter(User.email == email).first()
+
+    if not user:
+        db.close()
+        raise HTTPException(status_code=404, detail="Email not registered")
+
+    otp = generate_otp()
+    user.otp = otp
+    db.commit()
+    db.close()
+
+    # 🔍 SHOW OTP IN TERMINAL (DEV ONLY)
+    print(f"[DEV OTP] OTP for {email} → {otp}")
+
+    # 📧 SEND OTP TO EMAIL
+    send_otp_email(email, otp)
+
+    return RedirectResponse(f"/verify-otp?email={email}", status_code=303)
+
+@app.get("/test-email")
+def test_email():
+    send_otp_email("your_other_email@gmail.com", "123456")
+    return "Email sent"

@@ -80,3 +80,4 @@ function selectOTPMethod(method) {
     }
 }
 
+document.addEventListener("DOMContentLoaded", initTheme);
