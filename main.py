@@ -11,6 +11,9 @@ from models import User
 
 from utils.email import send_otp_email
 
+
+from datetime import datetime, timedelta
+
 # ---------------- APP SETUP ----------------
 
 app = FastAPI()
@@ -71,28 +74,6 @@ def success(request: Request):
 def generate_otp():
     return str(random.randint(100000, 999999))
 
-# ---------------- LOGIN (EMAIL OTP) ----------------
-
-@app.post("/login/email")
-def login_with_email(email: str = Form(...)):
-    db: Session = SessionLocal()
-    user = db.query(User).filter(User.email == email).first()
-
-    if not user:
-        db.close()
-        raise HTTPException(status_code=404, detail="Email not registered")
-
-    otp = generate_otp()
-    user.otp = otp
-    db.commit()
-    db.close()
-
-    # TEMP: print OTP (replace with email service later)
-    send_otp_email(email, otp)
-
-
-    return RedirectResponse(f"/verify-otp?email={email}", status_code=303)
-
 # ---------------- OTP PAGE ----------------
 
 @app.get("/verify-otp", response_class=HTMLResponse)
@@ -117,10 +98,17 @@ def verify_otp(
         db.close()
         raise HTTPException(status_code=400, detail="Invalid OTP")
 
-    # ✅ Clear OTP
-    user.otp = None
+    if not user.otp_expires_at or user.otp_expires_at < datetime.utcnow():
+        user.otp = None
+        user.otp_expires_at = None
+        db.commit()
+        db.close()
+        raise HTTPException(status_code=400, detail="OTP expired")
 
-    # ✅ Store login session
+    # ✅ Clear OTP after successful login
+    user.otp = None
+    user.otp_expires_at = None
+
     request.session["user_email"] = user.email
 
     db.commit()
@@ -170,6 +158,7 @@ def login_with_email(email: str = Form(...)):
 
     otp = generate_otp()
     user.otp = otp
+    user.otp_expires_at = datetime.utcnow() + timedelta(minutes=5)
     db.commit()
     db.close()
 
@@ -185,3 +174,28 @@ def login_with_email(email: str = Form(...)):
 def test_email():
     send_otp_email("your_other_email@gmail.com", "123456")
     return "Email sent"
+
+@app.post("/resend-otp")
+def resend_otp(email: str = Form(...)):
+    db: Session = SessionLocal()
+    user = db.query(User).filter(User.email == email).first()
+
+    if not user:
+        db.close()
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # 🔁 Generate new OTP
+    otp = generate_otp()
+    user.otp = otp
+    user.otp_expires_at = datetime.utcnow() + timedelta(minutes=5)
+
+    db.commit()
+    db.close()
+
+    # 🔍 DEV ONLY
+    print(f"[DEV OTP - RESEND] OTP for {email} → {otp}")
+
+    # 📧 Send email
+    send_otp_email(email, otp)
+
+    return RedirectResponse(f"/verify-otp?email={email}", status_code=303)

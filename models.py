@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, DateTime
 from database import Base
 
 class User(Base):
@@ -11,3 +11,4 @@ class User(Base):
     email = Column(String, nullable=False, unique=True, index=True)
     mobile = Column(String, nullable=False)
     otp = Column(String, nullable=True)
+    otp_expires_at = Column(DateTime, nullable=True)

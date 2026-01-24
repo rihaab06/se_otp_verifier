@@ -252,78 +252,33 @@ function initTimer() {
     
     // Resend button click handler
     resendBtn.addEventListener('click', () => {
-        if (!resendBtn.disabled) {
-            // Show loading state
-            resendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Resending...';
-            resendBtn.disabled = true;
-            
-            // Simulate API call
-            setTimeout(() => {
-                // Reset timer
-                timeLeft = 30;
-                timerElement.textContent = `(${timeLeft}s)`;
-                
-                // Restart timer
-                const newTimer = setInterval(() => {
-                    timeLeft--;
-                    timerElement.textContent = `(${timeLeft}s)`;
-                    
-                    if (timeLeft <= 0) {
-                        clearInterval(newTimer);
-                        timerElement.textContent = '';
-                        resendBtn.disabled = false;
-                        resendBtn.innerHTML = '<i class="fas fa-redo"></i> Resend OTP';
-                    }
-                }, 1000);
-                
-                // Show success message
-                const methodName = window.contactInfo.method === 'email' ? 'email' : 'SMS';
-                const maskedContact = window.contactInfo.method === 'email' 
-                    ? window.contactInfo.email.split('@')[0].charAt(0) + '****@' + window.contactInfo.email.split('@')[1]
-                    : '****' + window.contactInfo.mobile.slice(-4);
-                
-                showNotification(`New OTP sent to ${maskedContact} via ${methodName}`, 'success');
-                
-            }, 1500);
-        }
-    });
-}
+    if (resendBtn.disabled) return;
 
-// ===== EXPIRY TIMER =====
+    resendBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Resending...';
+    resendBtn.disabled = true;
 
-function initExpiryTimer() {
-    let minutes = 5;
-    let seconds = 0;
-    const expiryElement = document.getElementById('expiryTime');
-    
-    if (!expiryElement) return;
-    
-    const expiryInterval = setInterval(() => {
-        if (seconds === 0) {
-            if (minutes === 0) {
-                clearInterval(expiryInterval);
-                expiryElement.textContent = '00:00';
-                expiryElement.style.color = '#ef4444';
-                showNotification('OTP has expired. Please request a new one.', 'error');
-                return;
-            }
-            minutes--;
-            seconds = 59;
+    const params = new URLSearchParams(window.location.search);
+    const email = params.get('email');
+
+    fetch('/resend-otp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ email })
+    })
+    .then(res => {
+        if (res.redirected) {
+            window.location.href = res.url;
         } else {
-            seconds--;
+            throw new Error();
         }
-        
-        // Update display
-        const minsStr = minutes.toString().padStart(2, '0');
-        const secsStr = seconds.toString().padStart(2, '0');
-        expiryElement.textContent = `${minsStr}:${secsStr}`;
-        
-        // Change color when less than 1 minute
-        if (minutes === 0) {
-            expiryElement.style.color = '#ef4444';
-            expiryElement.style.animation = 'pulse 1s infinite';
-        }
-    }, 1000);
+    })
+    .catch(() => {
+        showNotification('Failed to resend OTP', 'error');
+        resendBtn.disabled = false;
+        resendBtn.innerHTML = '<i class="fas fa-redo"></i> Resend OTP';
+    });
+});
+
 }
 
 // ===== DEMO OTP FUNCTIONALITY =====
@@ -499,6 +454,55 @@ document.addEventListener('DOMContentLoaded', function() {
                     resendBtn.click();
                 }
             }
+        }
+    });
+
+
+});
+
+// ===== EXPIRY TIMER =====
+function initExpiryTimer() {
+    let minutes = 5;
+    let seconds = 0;
+    const expiryElement = document.getElementById('expiryTime');
+    if (!expiryElement) return;
+
+    setInterval(() => {
+        if (seconds === 0) {
+            if (minutes === 0) return;
+            minutes--;
+            seconds = 59;
+        } else {
+            seconds--;
+        }
+        expiryElement.textContent =
+            `${String(minutes).padStart(2,'0')}:${String(seconds).padStart(2,'0')}`;
+    }, 1000);
+}
+
+// ===== INITIALIZATION =====
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize all features
+    initTheme();
+    initContactInfo();
+    initOTPInputs();
+    initTimer();
+    initExpiryTimer(); // now this is safe
+
+    initButtonHandlers();
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.target.classList.contains('otp-digit')) {
+            const verifyBtn = document.getElementById('verifyBtn');
+            if (verifyBtn && !verifyBtn.disabled) verifyBtn.click();
+        }
+        if (e.key === 'Escape') {
+            window.location.href = '/';
+        }
+        if ((e.key === 'r' || e.key === 'R') && e.ctrlKey) {
+            const resendBtn = document.getElementById('resendBtn');
+            if (resendBtn && !resendBtn.disabled) resendBtn.click();
         }
     });
 });

@@ -60,13 +60,21 @@
                 </div>
 
                 <div class="form-group">
-                    <button type="button" class="btn btn-secondary full-width" id="resendBtn" disabled>
-                        <i class="fas fa-redo"></i>
-                        Resend OTP
-                        <span class="timer" id="resendTimer">(30s)</span>
+                    
                     </button>
                 </div>
             </form>
+            <form method="post" action="/resend-otp">
+                 <div class="form-group">
+                <input type="hidden" name="email" value="{{ email }}">
+                 <button type="button" class="btn btn-secondary full-width" id="resendBtn" disabled>
+                        <i class="fas fa-redo"></i>
+                        Resend OTP
+                        <span class="timer" id="resendTimer">(30s)</span>
+                 </div>
+</form>
+
+
         </div>
 
 
